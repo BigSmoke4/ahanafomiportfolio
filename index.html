@@ -548,6 +548,8 @@
             object-position: center;
             z-index: 10;
             background-color: rgba(0, 0, 0, 0.3);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         .project-image {
@@ -910,6 +912,8 @@
             background: rgba(0, 0, 0, 0.4);
             animation: float 6s ease-in-out infinite;
             z-index: 10;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         .skill-icon i,
@@ -2237,12 +2241,35 @@
         }
 
         // Navigation Button Event Listeners
-        document.getElementById('next-project').addEventListener('click', nextProject);
-        document.getElementById('prev-project').addEventListener('click', prevProject);
+        const nextProjectBtn = document.getElementById('next-project');
+        const prevProjectBtn = document.getElementById('prev-project');
+        
+        // Click events for desktop
+        nextProjectBtn.addEventListener('click', nextProject);
+        prevProjectBtn.addEventListener('click', prevProject);
+        
+        // Touch events for mobile
+        nextProjectBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            nextProject();
+        });
+        prevProjectBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            prevProject();
+        });
 
-        // Project Image Click Event Listeners
+        // Project Image Click and Touch Event Listeners
         projectImages.forEach((img) => {
-            img.addEventListener('click', () => {
+            // Click event for desktop
+            img.addEventListener('click', (e) => {
+                e.preventDefault();
+                const projectIndex = parseInt(img.dataset.project);
+                showProject(projectIndex);
+            });
+            
+            // Touch event for mobile
+            img.addEventListener('touchstart', (e) => {
+                e.preventDefault();
                 const projectIndex = parseInt(img.dataset.project);
                 showProject(projectIndex);
             });
@@ -2265,29 +2292,41 @@
         });
 
         skillIcons.forEach((icon) => {
-            icon.addEventListener('click', () => {
-                const skill = icon.dataset.skill;
-                const category = icon.dataset.category;
-                const rating = parseFloat(icon.dataset.rating);
-                const color = icon.dataset.color;
-
-                // Update display
-                skillNameDisplay.textContent = skill;
-                skillCategoryDisplay.textContent = category;
-                skillRatingFill.style.width = `${(rating / 5) * 100}%`;
-                skillRatingText.textContent = `${rating} / 5`;
-
-                // Update active state
-                skillIcons.forEach(i => {
-                    i.classList.remove('active');
-                    const iconElement = i.querySelector('i');
-                    if (iconElement && i.dataset.color) {
-                        iconElement.style.color = i.dataset.color;
-                    }
-                });
-                icon.classList.add('active');
+            // Click event for desktop
+            icon.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleSkillClick(icon);
+            });
+            
+            // Touch event for mobile
+            icon.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                handleSkillClick(icon);
             });
         });
+
+        function handleSkillClick(icon) {
+            const skill = icon.dataset.skill;
+            const category = icon.dataset.category;
+            const rating = parseFloat(icon.dataset.rating);
+            const color = icon.dataset.color;
+
+            // Update display
+            skillNameDisplay.textContent = skill;
+            skillCategoryDisplay.textContent = category;
+            skillRatingFill.style.width = `${(rating / 5) * 100}%`;
+            skillRatingText.textContent = `${rating} / 5`;
+
+            // Update active state
+            skillIcons.forEach(i => {
+                i.classList.remove('active');
+                const iconElement = i.querySelector('i');
+                if (iconElement && i.dataset.color) {
+                    iconElement.style.color = i.dataset.color;
+                }
+            });
+            icon.classList.add('active');
+        }
 
         // Initialize first skill as active
         if (skillIcons.length > 0) {
