@@ -319,12 +319,13 @@
             align-items: center;
             gap: 0.5rem;
             color: rgba(232, 232, 232, 0.6);
-            font-size: 0.875rem;
+            font-size: clamp(0.75rem, 1.5vw, 0.875rem);
             animation: bounce 2s infinite;
+            white-space: nowrap;
         }
 
         .scroll-indicator i {
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 2vw, 1.25rem);
         }
 
         @keyframes bounce {
@@ -1164,6 +1165,16 @@
                 width: 0.5rem;
             }
 
+            .scroll-indicator {
+                bottom: 1.5rem;
+                font-size: 0.75rem;
+                gap: 0.3rem;
+            }
+
+            .scroll-indicator i {
+                font-size: 1rem;
+            }
+
             .scene-content {
                 padding: 1.5rem;
             }
@@ -1505,6 +1516,17 @@
             .experience-achievements li {
                 margin-bottom: 0.4rem;
                 margin-left: 0.75rem;
+            }
+
+            /* Scroll indicator for small mobile */
+            .scroll-indicator {
+                bottom: 1rem;
+                font-size: 0.65rem;
+                gap: 0.25rem;
+            }
+
+            .scroll-indicator i {
+                font-size: 0.8rem;
             }
         }
 
@@ -2421,6 +2443,69 @@
         const musicControl = document.getElementById('music-control');
         const musicIcon = document.getElementById('music-icon');
         let musicStarted = false;
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            const currentScene = getCurrentScene();
+            const totalScenes = scenes.length;
+            
+            switch(e.key) {
+                case 'ArrowUp':
+                    e.preventDefault();
+                    navigateToScene(Math.max(0, currentScene - 1));
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    navigateToScene(Math.min(totalScenes - 1, currentScene + 1));
+                    break;
+                case 'm':
+                case 'M':
+                    e.preventDefault();
+                    toggleMusic();
+                    break;
+            }
+        });
+
+        function getCurrentScene() {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            return Math.round(scrollPosition / windowHeight);
+        }
+
+        function navigateToScene(sceneIndex) {
+            const targetScene = scenes[sceneIndex];
+            if (targetScene) {
+                targetScene.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function toggleMusic() {
+            // Start music if it hasn't started yet
+            if (!musicStarted) {
+                musicStarted = true;
+                backgroundMusic.muted = false; // Start with sound immediately
+                backgroundMusic.play().then(() => {
+                    console.log('Music started with sound via keyboard');
+                    musicIcon.className = 'fas fa-volume-up';
+                    musicControl.classList.remove('muted');
+                }).catch(error => {
+                    console.log('Unable to play music:', error);
+                });
+            } else {
+                // Toggle mute/unmute if music is already playing (no limit)
+                if (backgroundMusic.muted) {
+                    backgroundMusic.muted = false;
+                    musicIcon.className = 'fas fa-volume-up';
+                    musicControl.classList.remove('muted');
+                    console.log('Music unmuted via keyboard');
+                } else {
+                    backgroundMusic.muted = true;
+                    musicIcon.className = 'fas fa-volume-mute';
+                    musicControl.classList.add('muted');
+                    console.log('Music muted via keyboard');
+                }
+            }
+        }
         
         // Music control button functionality - ONLY starts when button is pressed
         musicControl.addEventListener('click', (e) => {
@@ -2451,6 +2536,69 @@
                 }
             }
         });
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            const currentScene = getCurrentScene();
+            const totalScenes = scenes.length;
+            
+            switch(e.key) {
+                case 'ArrowUp':
+                    e.preventDefault();
+                    navigateToScene(Math.max(0, currentScene - 1));
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    navigateToScene(Math.min(totalScenes - 1, currentScene + 1));
+                    break;
+                case 'm':
+                case 'M':
+                    e.preventDefault();
+                    toggleMusic();
+                    break;
+            }
+        });
+
+        function getCurrentScene() {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            return Math.round(scrollPosition / windowHeight);
+        }
+
+        function navigateToScene(sceneIndex) {
+            const targetScene = scenes[sceneIndex];
+            if (targetScene) {
+                targetScene.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function toggleMusic() {
+            // Start music if it hasn't started yet
+            if (!musicStarted) {
+                musicStarted = true;
+                backgroundMusic.muted = false; // Start with sound immediately
+                backgroundMusic.play().then(() => {
+                    console.log('Music started with sound via keyboard');
+                    musicIcon.className = 'fas fa-volume-up';
+                    musicControl.classList.remove('muted');
+                }).catch(error => {
+                    console.log('Unable to play music:', error);
+                });
+            } else {
+                // Toggle mute/unmute if music is already playing (no limit)
+                if (backgroundMusic.muted) {
+                    backgroundMusic.muted = false;
+                    musicIcon.className = 'fas fa-volume-up';
+                    musicControl.classList.remove('muted');
+                    console.log('Music unmuted via keyboard');
+                } else {
+                    backgroundMusic.muted = true;
+                    musicIcon.className = 'fas fa-volume-mute';
+                    musicControl.classList.add('muted');
+                    console.log('Music muted via keyboard');
+                }
+            }
+        }
     </script>
 </body>
 </html>
