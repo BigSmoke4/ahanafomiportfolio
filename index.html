@@ -1,0 +1,2456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahanaf Mokammel Omi | Full-Stack Developer</title>
+    <meta name="description" content="Full-Stack Developer specialized in ASP.NET Core, C#, distributed systems, and AI-powered applications.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="logo.jpg" sizes="32x32">
+    <link rel="icon" type="image/jpeg" href="logo.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" href="logo.jpg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus+SC&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ============================================
+           RESET & BASE STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        html::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            font-family: 'Marcellus SC', serif;
+            background: #1a1a1a;
+            color: #e8e8e8;
+            overflow-x: hidden;
+            line-height: 1.6;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        *::-webkit-scrollbar {
+            display: none;
+        }
+
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        /* ============================================
+           TYPOGRAPHY
+           ============================================ */
+        .font-display {
+            font-family: 'Uncial Antiqua', serif;
+        }
+
+        .font-body {
+            font-family: 'Marcellus SC', serif;
+        }
+
+        /* ============================================
+           MUSIC CONTROL BUTTON
+           ============================================ */
+        .music-control {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            background: rgba(0, 0, 0, 0.3);
+            color: rgba(212, 175, 55, 0.9);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-control:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.8);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .music-control.muted {
+            opacity: 0.5;
+        }
+
+        /* ============================================
+           SCENE INDEX NAVIGATION
+           ============================================ */
+        .scene-index {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .scene-index-item {
+            font-family: 'Marcellus SC', serif;
+            font-size: 0.875rem;
+            color: rgba(232, 232, 232, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            padding: 0.25rem 0;
+        }
+
+        .scene-index-item::after {
+            content: '';
+            position: absolute;
+            right: -1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 1px;
+            background: rgba(212, 175, 55, 0.5);
+            transition: width 0.3s ease;
+        }
+
+        .scene-index-item:hover,
+        .scene-index-item.active {
+            color: rgba(232, 232, 232, 0.8);
+        }
+
+        .scene-index-item:hover::after,
+        .scene-index-item.active::after {
+            width: 0.75rem;
+        }
+
+        /* ============================================
+           MAIN CONTAINER
+           ============================================ */
+        main {
+            position: relative;
+        }
+
+        /* ============================================
+           SCENE BASE STYLES
+           ============================================ */
+        .scene {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scene-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        /* Ensure background images are responsive on all devices */
+        @media (max-width: 768px) {
+            .scene-background {
+                object-position: center top;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .scene-background {
+                object-position: center center;
+            }
+        }
+
+        .scene-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.2) 0%,
+                rgba(0, 0, 0, 0.4) 50%,
+                rgba(0, 0, 0, 0.6) 100%
+            );
+            pointer-events: none;
+        }
+
+        .scene-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1400px;
+            padding: 2rem 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Curved Half-Moon Text Layout */
+        .curved-text-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            gap: 4rem;
+        }
+
+        .curved-text-left {
+            flex: 1;
+            text-align: right;
+            padding-right: 2rem;
+            transform: perspective(1000px) rotateY(15deg);
+        }
+
+        .curved-text-right {
+            flex: 1;
+            text-align: left;
+            padding-left: 2rem;
+            transform: perspective(1000px) rotateY(-15deg);
+        }
+
+        .curved-text-center {
+            flex: 0 0 auto;
+            text-align: center;
+        }
+
+        /* ============================================
+           SCENE 01 - INTRO / IDENTITY
+           ============================================ */
+        #scene-01 .scene-content {
+            justify-content: center;
+            height: 100%;
+        }
+
+        .hero-name-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: nowrap;
+        }
+
+        .hero-title {
+            font-family: 'Uncial Antiqua', serif;
+            font-size: clamp(1.5rem, 5vw, 4rem);
+            color: #e8e8e8;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.05em;
+            line-height: 1.2;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .hero-left {
+            text-align: right;
+        }
+
+        .hero-center {
+            text-align: center;
+        }
+
+        .hero-right {
+            text-align: left;
+        }
+
+        .hero-subtitle {
+            font-family: 'Marcellus SC', serif;
+            font-size: clamp(1rem, 2.5vw, 1.75rem);
+            color: rgba(232, 232, 232, 0.9);
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .hero-location {
+            font-family: 'Marcellus SC', serif;
+            font-size: clamp(0.875rem, 2vw, 1.125rem);
+            color: rgba(212, 175, 55, 0.8);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(232, 232, 232, 0.6);
+            font-size: 0.875rem;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator i {
+            font-size: 1.25rem;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* ============================================
+           SCENE 02 - ABOUT / EDUCATION
+           ============================================ */
+        #scene-02 .scene-content {
+            max-width: 1400px;
+        }
+
+        .section-title {
+            font-family: 'Uncial Antiqua', serif;
+            font-size: clamp(1.75rem, 4vw, 3rem);
+            color: #e8e8e8;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .about-text {
+            font-family: 'Marcellus SC', serif;
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            color: rgba(232, 232, 232, 0.9);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+            max-width: 600px;
+        }
+
+        .education-timeline {
+            position: relative;
+            max-width: 500px;
+            padding-left: 2rem;
+        }
+
+        .education-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(
+                to bottom,
+                rgba(212, 175, 55, 0.3),
+                rgba(212, 175, 55, 0.6),
+                rgba(212, 175, 55, 0.3)
+            );
+        }
+
+        .education-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .education-item::before {
+            content: '';
+            position: absolute;
+            left: -1.9rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.8);
+            border: 2px solid rgba(232, 232, 232, 0.3);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+        }
+
+        .education-institution {
+            font-family: 'Marcellus SC', serif;
+            font-size: 1.125rem;
+            color: #e8e8e8;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .education-qualification {
+            font-family: 'Marcellus SC', serif;
+            font-size: 1rem;
+            color: rgba(212, 175, 55, 0.9);
+            margin-bottom: 0.25rem;
+        }
+
+        .education-year {
+            font-family: 'Marcellus SC', serif;
+            font-size: 0.875rem;
+            color: rgba(232, 232, 232, 0.6);
+        }
+
+        /* ============================================
+           SCENE 03 - PROJECTS
+           ============================================ */
+        #scene-03 .scene-content {
+            max-width: 1400px;
+        }
+
+        .project-counter {
+            font-family: 'Marcellus SC', serif;
+            font-size: 0.875rem;
+            color: rgba(212, 175, 55, 0.8);
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        .project-item {
+            display: none;
+            max-width: 1200px;
+        }
+
+        .project-item.active {
+            display: block;
+        }
+
+        .project-number {
+            font-family: 'Marcellus SC', serif;
+            font-size: 0.875rem;
+            color: rgba(212, 175, 55, 0.7);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.15em;
+        }
+
+        .project-title {
+            font-family: 'Uncial Antiqua', serif;
+            font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+            color: #e8e8e8;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .project-subtitle {
+            font-family: 'Marcellus SC', serif;
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            color: rgba(212, 175, 55, 0.9);
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .project-technologies {
+            font-family: 'Marcellus SC', serif;
+            font-size: 0.8rem;
+            color: rgba(232, 232, 232, 0.7);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        .project-description {
+            font-family: 'Marcellus SC', serif;
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            color: rgba(232, 232, 232, 0.85);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+            max-width: 500px;
+        }
+
+        .project-description p {
+            margin-bottom: 0.75rem;
+        }
+
+        /* Project Navigation Arrows */
+        .project-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-nav-btn {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: rgba(212, 175, 55, 0.9);
+            font-family: 'Marcellus SC', serif;
+            font-size: 1rem;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .project-nav-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.8);
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Floating Project Images */
+        .project-images-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .project-image {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.3s ease;
+            object-fit: cover;
+            object-position: center;
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .project-image {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .project-image:hover {
+            transform: scale(1.15);
+            border-color: rgba(212, 175, 55, 0.9);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+            z-index: 15;
+        }
+
+        .project-image.active {
+            border-color: rgba(212, 175, 55, 1);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.7);
+            transform: scale(1.2);
+            z-index: 20;
+            animation: none;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* Position project images - curved half-moon pattern, 6 on each side */
+        .project-image:nth-child(1) { top: 12%; left: 8%; animation-delay: 0s; }
+        .project-image:nth-child(2) { top: 28%; left: 5%; animation-delay: 0.5s; }
+        .project-image:nth-child(3) { top: 44%; left: 3%; animation-delay: 1s; }
+        .project-image:nth-child(4) { top: 60%; left: 5%; animation-delay: 1.5s; }
+        .project-image:nth-child(5) { top: 76%; left: 8%; animation-delay: 2s; }
+        .project-image:nth-child(6) { top: 88%; left: 12%; animation-delay: 2.5s; }
+        .project-image:nth-child(7) { top: 12%; right: 8%; left: auto; animation-delay: 3s; }
+        .project-image:nth-child(8) { top: 28%; right: 5%; left: auto; animation-delay: 3.5s; }
+        .project-image:nth-child(9) { top: 44%; right: 3%; left: auto; animation-delay: 4s; }
+        .project-image:nth-child(10) { top: 60%; right: 5%; left: auto; animation-delay: 4.5s; }
+        .project-image:nth-child(11) { top: 76%; right: 8%; left: auto; animation-delay: 5s; }
+        .project-image:nth-child(12) { top: 88%; right: 12%; left: auto; animation-delay: 5.5s; }
+
+        /* Mobile responsive project images */
+        @media (max-width: 768px) {
+            .project-image {
+                width: 45px;
+                height: 45px;
+                border-width: 2px;
+            }
+
+            .project-image:nth-child(1) { top: 15%; left: 5%; }
+            .project-image:nth-child(2) { top: 30%; left: 3%; }
+            .project-image:nth-child(3) { top: 45%; left: 2%; }
+            .project-image:nth-child(4) { top: 60%; left: 3%; }
+            .project-image:nth-child(5) { top: 75%; left: 5%; }
+            .project-image:nth-child(6) { top: 88%; left: 7%; }
+            .project-image:nth-child(7) { top: 15%; right: 5%; left: auto; }
+            .project-image:nth-child(8) { top: 30%; right: 3%; left: auto; }
+            .project-image:nth-child(9) { top: 45%; right: 2%; left: auto; }
+            .project-image:nth-child(10) { top: 60%; right: 3%; left: auto; }
+            .project-image:nth-child(11) { top: 75%; right: 5%; left: auto; }
+            .project-image:nth-child(12) { top: 88%; right: 7%; left: auto; }
+
+            .project-nav {
+                gap: 1rem;
+            }
+
+            .project-nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Marcellus SC', serif;
+            font-size: 0.875rem;
+            color: rgba(212, 175, 55, 0.9);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .project-link:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.6);
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .project-link i {
+            font-size: 1rem;
+        }
+
+        /* ============================================
+           SCENE 04 - EXPERIENCE
+           ============================================ */
+        #scene-04 .scene-content {
+            max-width: 1400px;
+        }
+
+        .experience-timeline {
+            position: relative;
+            max-width: 600px;
+            padding-left: 2rem;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(
+                to bottom,
+                rgba(212, 175, 55, 0.3),
+                rgba(212, 175, 55, 0.6),
+                rgba(212, 175, 55, 0.3)
+            );
+        }
+
+        .experience-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 1.5rem;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -1.9rem;
+            top: 0.5rem;
+            width: 14px;
+            height: 14px;
+            border-radius: 2px;
+            background: rgba(212, 175, 55, 0.8);
+            border: 2px solid rgba(232, 232, 232, 0.3);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+            transform: rotate(45deg);
+        }
+
+        .experience-title {
+            font-family: 'Marcellus SC', serif;
+            font-size: 1.25rem;
+            color: #e8e8e8;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .experience-company {
+            font-family: 'Marcellus SC', serif;
+            font-size: 1rem;
+            color: rgba(212, 175, 55, 0.9);
+            margin-bottom: 0.25rem;
+        }
+
+        .experience-date {
+            font-family: 'Marcellus SC', serif;
+            font-size: 0.875rem;
+            color: rgba(232, 232, 232, 0.6);
+            margin-bottom: 1rem;
+        }
+
+        .experience-achievements {
+            font-family: 'Marcellus SC', serif;
+            font-size: 0.95rem;
+            color: rgba(232, 232, 232, 0.8);
+            line-height: 1.7;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .experience-achievements li {
+            margin-bottom: 0.5rem;
+            margin-left: 1.5rem;
+        }
+
+        /* ============================================
+           SCENE 05 - SKILLS + CONTACT
+           ============================================ */
+        #scene-05 {
+            position: relative;
+        }
+
+        #scene-05 .scene-content {
+            max-width: 1400px;
+        }
+
+        .skills-section,
+        .contact-section {
+            display: none;
+        }
+
+        .skills-section.active,
+        .contact-section.active {
+            display: block;
+        }
+
+        /* Skills Circular Layout */
+        .skills-container {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .skills-display {
+            text-align: center;
+            z-index: 10;
+            max-width: 400px;
+        }
+
+        .skills-display-title {
+            font-family: 'Uncial Antiqua', serif;
+            font-size: 2rem;
+            color: #e8e8e8;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .skills-display-category {
+            font-family: 'Marcellus SC', serif;
+            font-size: 1rem;
+            color: rgba(212, 175, 55, 0.9);
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .skill-rating-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .skill-rating-fill {
+            height: 100%;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.6), rgba(212, 175, 55, 0.9));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .skill-rating-text {
+            font-family: 'Marcellus SC', serif;
+            font-size: 0.875rem;
+            color: rgba(232, 232, 232, 0.7);
+        }
+
+        /* Skills Contact Section */
+        .skills-contact {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        #scene-05 .skills-contact {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .skills-contact-title {
+            font-family: 'Uncial Antiqua', serif;
+            font-size: 1.25rem;
+            color: rgba(212, 175, 55, 0.9);
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .skills-contact-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .skills-contact-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            background: rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.25rem;
+        }
+
+        .skills-contact-link span {
+            font-family: 'Marcellus SC', serif;
+            font-weight: bold;
+            color: #4F9ED7;
+        }
+
+        .skills-contact-link:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.8);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .skills-contact-link:hover i,
+        .skills-contact-link:hover span {
+            transform: scale(1.1);
+        }
+
+        /* Floating Skill Icons */
+        .skills-icons-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Override for scene-05 to position icons relative to scene */
+        #scene-05 .skills-icons-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .skill-icon {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.4);
+            animation: float 6s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        .skill-icon i,
+        .skill-icon .symbol {
+            font-size: 1.5rem;
+            color: #e8e8e8;
+            transition: all 0.3s ease;
+        }
+
+        .skill-icon .symbol {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .skill-icon:hover {
+            transform: scale(1.15);
+            border-color: rgba(212, 175, 55, 0.9);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            z-index: 15;
+        }
+
+        .skill-icon:hover i,
+        .skill-icon:hover .symbol {
+            transform: scale(1.1);
+        }
+
+        .skill-icon.active {
+            border-color: rgba(212, 175, 55, 1);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.7);
+            transform: scale(1.2);
+            z-index: 20;
+            animation: none;
+        }
+
+        .skill-icon.active i,
+        .skill-icon.active .symbol {
+            color: rgba(212, 175, 55, 1) !important;
+        }
+
+        /* Position skill icons in curved moon pattern - 6 on each side (exactly like projects) */
+        .skill-icon:nth-child(1) { top: 12%; left: 8%; animation-delay: 0s; }
+        .skill-icon:nth-child(2) { top: 28%; left: 5%; animation-delay: 0.5s; }
+        .skill-icon:nth-child(3) { top: 44%; left: 3%; animation-delay: 1s; }
+        .skill-icon:nth-child(4) { top: 60%; left: 5%; animation-delay: 1.5s; }
+        .skill-icon:nth-child(5) { top: 76%; left: 8%; animation-delay: 2s; }
+        .skill-icon:nth-child(6) { top: 88%; left: 12%; animation-delay: 2.5s; }
+        .skill-icon:nth-child(7) { top: 12%; right: 8%; left: auto; animation-delay: 3s; }
+        .skill-icon:nth-child(8) { top: 28%; right: 5%; left: auto; animation-delay: 3.5s; }
+        .skill-icon:nth-child(9) { top: 44%; right: 3%; left: auto; animation-delay: 4s; }
+        .skill-icon:nth-child(10) { top: 60%; right: 5%; left: auto; animation-delay: 4.5s; }
+        .skill-icon:nth-child(11) { top: 76%; right: 8%; left: auto; animation-delay: 5s; }
+        .skill-icon:nth-child(12) { top: 88%; right: 12%; left: auto; animation-delay: 5.5s; }
+
+        /* Mobile responsive skill icons */
+        @media (max-width: 768px) {
+            .skill-icon {
+                width: 35px;
+                height: 35px;
+            }
+
+            .skill-icon i,
+            .skill-icon .symbol {
+                font-size: 0.9rem;
+            }
+
+            .skill-icon .symbol {
+                font-size: 0.7rem;
+            }
+
+            .skill-icon:nth-child(1) { top: 15%; left: 5%; }
+            .skill-icon:nth-child(2) { top: 30%; left: 3%; }
+            .skill-icon:nth-child(3) { top: 45%; left: 2%; }
+            .skill-icon:nth-child(4) { top: 60%; left: 3%; }
+            .skill-icon:nth-child(5) { top: 75%; left: 5%; }
+            .skill-icon:nth-child(6) { top: 88%; left: 7%; }
+            .skill-icon:nth-child(7) { top: 15%; right: 5%; left: auto; }
+            .skill-icon:nth-child(8) { top: 30%; right: 3%; left: auto; }
+            .skill-icon:nth-child(9) { top: 45%; right: 2%; left: auto; }
+            .skill-icon:nth-child(10) { top: 60%; right: 3%; left: auto; }
+            .skill-icon:nth-child(11) { top: 75%; right: 5%; left: auto; }
+            .skill-icon:nth-child(12) { top: 88%; right: 7%; left: auto; }
+
+            .skills-container {
+                height: 50vh;
+            }
+
+            .skills-display-title {
+                font-size: 1.5rem;
+            }
+
+            .skills-contact {
+                bottom: 1rem;
+            }
+
+            .skills-contact-title {
+                font-size: 1rem;
+            }
+
+            .skills-contact-link {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+
+            .skills-contact-link span {
+                font-size: 0.9rem;
+                color: #4F9ED7;
+            }
+        }
+
+        .contact-section {
+            text-align: center;
+        }
+
+        .contact-title {
+            font-family: 'Uncial Antiqua', serif;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            color: #e8e8e8;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Marcellus SC', serif;
+            font-size: 1.1rem;
+            color: rgba(232, 232, 232, 0.9);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            min-width: 280px;
+            justify-content: center;
+        }
+
+        .contact-link:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.6);
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+            color: rgba(212, 175, 55, 1);
+        }
+
+        .contact-link i {
+            font-size: 1.25rem;
+            color: rgba(212, 175, 55, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover i {
+            color: rgba(212, 175, 55, 1);
+            transform: scale(1.1);
+        }
+
+        .contact-link span {
+            font-size: 1.1rem;
+        }
+
+        .final-inscription {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .final-name {
+            font-family: 'Uncial Antiqua', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: #e8e8e8;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .final-title {
+            font-family: 'Marcellus SC', serif;
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: rgba(212, 175, 55, 0.8);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 1024px) {
+            .curved-text-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .curved-text-left,
+            .curved-text-right {
+                transform: none;
+                text-align: center;
+                padding: 0;
+            }
+
+            .curved-text-center {
+                order: -1;
+            }
+
+            .scene-content {
+                padding: 2rem 3rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .music-control {
+                top: 1rem;
+                right: 1rem;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .scene-index {
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .scene-index-item::after {
+                right: -0.75rem;
+                bottom: auto;
+                left: auto;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 0;
+                height: 1px;
+            }
+
+            .scene-index-item:hover::after,
+            .scene-index-item.active::after {
+                width: 0.5rem;
+            }
+
+            .scene-content {
+                padding: 1.5rem;
+            }
+
+            .curved-text-container {
+                gap: 1.5rem;
+                flex-direction: column;
+            }
+
+            .curved-text-left,
+            .curved-text-right {
+                transform: none;
+                text-align: center;
+                padding: 0;
+            }
+
+            .curved-text-center {
+                order: -1;
+            }
+
+            .about-text {
+                font-size: 0.95rem;
+                max-width: 100%;
+            }
+
+            .education-timeline,
+            .experience-timeline {
+                padding-left: 1.5rem;
+                max-width: 100%;
+            }
+
+            .experience-achievements {
+                font-size: 0.85rem;
+                line-height: 1.5;
+            }
+
+            .experience-achievements li {
+                margin-bottom: 0.75rem;
+                margin-left: 1.25rem;
+            }
+
+            .education-item,
+            .experience-item {
+                margin-bottom: 2rem;
+                padding-left: 1.25rem;
+            }
+
+            .education-institution,
+            .experience-title {
+                font-size: 0.95rem;
+                line-height: 1.3;
+            }
+
+            .education-qualification,
+            .experience-company {
+                font-size: 0.85rem;
+                line-height: 1.3;
+            }
+
+            .education-year,
+            .experience-date {
+                font-size: 0.75rem;
+            }
+
+            /* Better experience section spacing on mobile */
+            .experience-timeline {
+                max-width: 100%;
+                padding-left: 1.25rem;
+            }
+
+            .experience-item {
+                padding-left: 1.25rem;
+            }
+
+            .experience-item::before {
+                left: -1.65rem;
+                width: 12px;
+                height: 12px;
+            }
+
+            .project-description {
+                font-size: 0.9rem;
+                max-width: 100%;
+            }
+
+            .project-technologies {
+                font-size: 0.75rem;
+                max-width: 100%;
+            }
+
+            .project-title {
+                font-size: 1.25rem;
+            }
+
+            .project-subtitle {
+                font-size: 0.95rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            /* Ensure all text is visible on mobile */
+            .curved-text-left,
+            .curved-text-right {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .about-text,
+            .project-description,
+            .experience-achievements {
+                max-width: 100%;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            .education-item::before,
+            .experience-item::before {
+                left: -1.4rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .contact-links {
+                gap: 1rem;
+            }
+
+            .contact-link {
+                min-width: auto;
+                width: 100%;
+                max-width: 300px;
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .scene-content {
+                padding: 1rem;
+            }
+
+            .curved-text-container {
+                gap: 1rem;
+                flex-direction: column;
+            }
+
+            .curved-text-left,
+            .curved-text-right {
+                transform: none;
+                text-align: center;
+                padding: 0;
+                width: 100%;
+            }
+
+            .about-text,
+            .project-description {
+                font-size: 0.9rem;
+                max-width: 100%;
+            }
+
+            .education-timeline,
+            .experience-timeline {
+                padding-left: 1rem;
+                max-width: 100%;
+            }
+
+            .education-item,
+            .experience-item {
+                margin-bottom: 1.5rem;
+            }
+
+            .education-institution,
+            .experience-title {
+                font-size: 0.95rem;
+            }
+
+            .education-qualification,
+            .experience-company {
+                font-size: 0.85rem;
+            }
+
+            .education-year,
+            .experience-date {
+                font-size: 0.75rem;
+            }
+
+            .experience-achievements {
+                font-size: 0.8rem;
+                line-height: 1.4;
+            }
+
+            .experience-achievements li {
+                margin-bottom: 0.5rem;
+                margin-left: 1rem;
+            }
+
+            .experience-item {
+                margin-bottom: 1.25rem;
+                padding-left: 1rem;
+            }
+
+            .experience-item::before {
+                left: -1.4rem;
+                width: 10px;
+                height: 10px;
+            }
+
+            .experience-timeline {
+                padding-left: 1rem;
+            }
+
+            /* Ensure experience section fits on mobile */
+            .experience-title {
+                font-size: 0.9rem;
+                line-height: 1.2;
+            }
+
+            .experience-company {
+                font-size: 0.8rem;
+                line-height: 1.2;
+            }
+
+            .experience-date {
+                font-size: 0.7rem;
+            }
+
+            /* Ensure experience content fits properly */
+            .experience-timeline {
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+            }
+
+            .experience-item {
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+            }
+
+            .experience-achievements {
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            /* Additional mobile fixes for experience section */
+            .curved-text-right {
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .experience-timeline {
+                padding-left: 0.75rem;
+            }
+
+            .experience-item {
+                padding-left: 0.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .experience-item::before {
+                left: -1.2rem;
+                width: 8px;
+                height: 8px;
+            }
+
+            .skills-grid {
+                gap: 1rem;
+            }
+
+            .skill-category {
+                padding: 1rem;
+            }
+
+            .hero-title {
+                font-size: clamp(1rem, 4vw, 2rem);
+            }
+
+            .hero-name-container {
+                gap: 0.5rem;
+            }
+
+            .section-title {
+                font-size: clamp(1.25rem, 4vw, 2rem);
+            }
+
+            .project-title {
+                font-size: 1.1rem;
+            }
+
+            .project-subtitle {
+                font-size: 0.85rem;
+            }
+
+            .project-technologies {
+                font-size: 0.7rem;
+            }
+
+            /* Experience section specific fixes for small mobile */
+            .experience-timeline {
+                padding-left: 0.5rem;
+            }
+
+            .experience-item {
+                padding-left: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .experience-item::before {
+                left: -1rem;
+                width: 8px;
+                height: 8px;
+            }
+
+            .experience-title {
+                font-size: 0.85rem;
+            }
+
+            .experience-company {
+                font-size: 0.75rem;
+            }
+
+            .experience-date {
+                font-size: 0.65rem;
+            }
+
+            .experience-achievements {
+                font-size: 0.75rem;
+                line-height: 1.3;
+            }
+
+            .experience-achievements li {
+                margin-bottom: 0.4rem;
+                margin-left: 0.75rem;
+            }
+        }
+
+        /* ============================================
+           ACCESSIBILITY - REDUCED MOTION
+           ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .scroll-indicator {
+                animation: none;
+            }
+
+            .scene-index-item,
+            .project-link,
+            .contact-link,
+            .skill-item {
+                transition: none;
+            }
+        }
+
+        /* ============================================
+           MARBLE TEXTURE OVERLAY
+           ============================================ */
+        .marble-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* ============================================
+           VIGNETTE EFFECT
+           ============================================ */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Music -->
+    <audio id="background-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Marble Texture Overlay -->
+    <div class="marble-overlay"></div>
+    
+    <!-- Vignette Effect -->
+    <div class="vignette"></div>
+
+    <!-- Music Control Button -->
+    <button id="music-control" class="music-control" aria-label="Toggle music">
+        <i class="fas fa-volume-mute" id="music-icon"></i>
+    </button>
+
+    <!-- Scene Index Navigation -->
+    <nav class="scene-index" aria-label="Scene navigation">
+        <a href="#scene-01" class="scene-index-item active" data-scene="1">01</a>
+        <a href="#scene-02" class="scene-index-item" data-scene="2">02</a>
+        <a href="#scene-03" class="scene-index-item" data-scene="3">03</a>
+        <a href="#scene-04" class="scene-index-item" data-scene="4">04</a>
+        <a href="#scene-05" class="scene-index-item" data-scene="5">05</a>
+    </nav>
+
+    <main>
+        <!-- SCENE 01 - INTRO / IDENTITY -->
+        <section id="scene-01" class="scene" aria-label="Introduction">
+            <video class="scene-background" autoplay muted loop playsinline poster="2.png">
+                <source src="1.mp4" type="video/mp4">
+            </video>
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <div class="hero-name-container">
+                    <h1 class="hero-title hero-left" id="hero-ahanaf">AHANAF</h1>
+                    <h1 class="hero-title hero-center" id="hero-mokammel">MOKAMMEL</h1>
+                    <h1 class="hero-title hero-right" id="hero-omi">OMI</h1>
+                </div>
+                <p class="hero-subtitle" id="hero-subtitle">Full-Stack Developer</p>
+                <p class="hero-location" id="hero-location">Dhaka-1205, Bangladesh</p>
+                <div class="scroll-indicator">
+                    <span>SCROLL TO EXPLORE</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCENE 02 - ABOUT / EDUCATION -->
+        <section id="scene-02" class="scene" aria-label="About and Education">
+            <img class="scene-background" src="2.png" alt="Ancient Greek architecture background">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <div class="curved-text-container">
+                    <div class="curved-text-left">
+                        <h2 class="section-title">ABOUT</h2>
+                        <p class="about-text">
+                            Full-Stack Developer experienced in building scalable web applications and backend systems with ASP.NET Core, C#, SQL Server, PostgreSQL, Redis, and JavaScript. Strong in system design, database optimization, distributed systems, and AI-powered applications, with a focus on clean code, performance, and reliable software delivery.
+                        </p>
+                    </div>
+                    <div class="curved-text-right">
+                        <h2 class="section-title">EDUCATION</h2>
+                        <div class="education-timeline">
+                            <div class="education-item">
+                                <h3 class="education-institution">BRAC University, Bangladesh</h3>
+                                <p class="education-qualification">B.Sc. in Computer Science</p>
+                                <p class="education-year">2026</p>
+                            </div>
+                            <div class="education-item">
+                                <h3 class="education-institution">Dhaka Residential Model College, Bangladesh</h3>
+                                <p class="education-qualification">Higher Secondary Certificate</p>
+                                <p class="education-year">2020</p>
+                            </div>
+                            <div class="education-item">
+                                <h3 class="education-institution">Ibn Taimiya School and College, Bangladesh</h3>
+                                <p class="education-qualification">Secondary School Certificate</p>
+                                <p class="education-year">2018</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCENE 03 - PROJECTS -->
+        <section id="scene-03" class="scene" aria-label="Projects">
+            <img class="scene-background" src="3.png" alt="Ancient Greek museum background">
+            <div class="scene-overlay"></div>
+            
+            <!-- Floating Project Images -->
+            <div class="project-images-container" id="project-images-container">
+                <!-- Left side: projects 2-7 -->
+                <img class="project-image" src="p2.jpg" alt="Project 2" data-project="1">
+                <img class="project-image" src="p3.jpg" alt="Project 3" data-project="2">
+                <img class="project-image" src="p4.jpg" alt="Project 4" data-project="3">
+                <img class="project-image" src="p5.jpg" alt="Project 5" data-project="4">
+                <img class="project-image" src="p6.jpg" alt="Project 6" data-project="5">
+                <img class="project-image" src="p7.jpg" alt="Project 7" data-project="6">
+                <!-- Right side: projects 8-13 -->
+                <img class="project-image" src="p8.jpg" alt="Project 8" data-project="7">
+                <img class="project-image" src="p9.jpg" alt="Project 9" data-project="8">
+                <img class="project-image" src="p10.jpg" alt="Project 10" data-project="9">
+                <img class="project-image" src="p11.jpg" alt="Project 11" data-project="10">
+                <img class="project-image" src="p12.jpg" alt="Project 12" data-project="11">
+                <img class="project-image" src="p13.jpg" alt="Project 13" data-project="12">
+            </div>
+            
+            <div class="scene-content">
+                <div class="curved-text-container">
+                    <div class="curved-text-left">
+                        <h2 class="section-title">PROJECTS</h2>
+                        <div class="project-counter" id="project-counter">01 / 13</div>
+                    </div>
+                    <div class="curved-text-right">
+                        <div id="projects-container">
+                            <!-- Projects will be dynamically inserted here -->
+                        </div>
+                        <div class="project-nav">
+                            <button class="project-nav-btn" id="prev-project">
+                                <i class="fas fa-arrow-left"></i> PREVIOUS
+                            </button>
+                            <button class="project-nav-btn" id="next-project">
+                                NEXT <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCENE 04 - EXPERIENCE -->
+        <section id="scene-04" class="scene" aria-label="Experience">
+            <img class="scene-background" src="4.png" alt="Ancient Greek library background">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <div class="curved-text-container">
+                    <div class="curved-text-left">
+                        <h2 class="section-title">EXPERIENCE</h2>
+                    </div>
+                    <div class="curved-text-right">
+                        <div class="experience-timeline">
+                            <div class="experience-item">
+                                <h3 class="experience-title">JUNIOR WEB DEVELOPER</h3>
+                                <p class="experience-company">Billing Master Software Limited, Bangladesh</p>
+                                <p class="experience-date">2025 – Present</p>
+                                <ul class="experience-achievements">
+                                    <li>Built 3+ ASP.NET MVC modules, improving internal processing efficiency by 30%.</li>
+                                    <li>Implemented scalable CRUD and database features that reduced user-reported errors by 25%.</li>
+                                    <li>Optimized SQL queries resulting in 20% faster data retrieval.</li>
+                                </ul>
+                            </div>
+                            <div class="experience-item">
+                                <h3 class="experience-title">EXECUTIVE MEMBER</h3>
+                                <p class="experience-company">BRAC University Computer Club, Bangladesh</p>
+                                <p class="experience-date">2022 – 2025</p>
+                                <ul class="experience-achievements">
+                                    <li>Organized university-wide coding workshops and hackathons with 100+ student participants.</li>
+                                    <li>Collaborated with the web team to maintain club website and event registration systems.</li>
+                                </ul>
+                            </div>
+                            <div class="experience-item">
+                                <h3 class="experience-title">GENERAL MEMBER</h3>
+                                <p class="experience-company">Dhaka Residential Model College Computer Club, Bangladesh</p>
+                                <p class="experience-date">2018 – 2020</p>
+                                <ul class="experience-achievements">
+                                    <li>Participated in intra-school programming competitions and basic web development training sessions.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCENE 05 - SKILLS + CONTACT -->
+        <section id="scene-05" class="scene" aria-label="Skills and Contact">
+            <img class="scene-background" src="5.png" alt="Ancient Greek temple background">
+            <div class="scene-overlay"></div>
+            
+            <!-- Floating Skill Icons -->
+            <div class="skills-icons-container" id="skills-icons-container">
+                <!-- Left side - 6 skills -->
+                <div class="skill-icon" data-skill="C#" data-category="PROGRAMMING LANGUAGES" data-color="#68217A">
+                    <i class="fab fa-cuttlefish" style="color: #68217A;"></i>
+                </div>
+                <div class="skill-icon" data-skill="Python" data-category="PROGRAMMING LANGUAGES" data-color="#3776AB">
+                    <i class="fab fa-python" style="color: #3776AB;"></i>
+                </div>
+                <div class="skill-icon" data-skill="JavaScript" data-category="PROGRAMMING LANGUAGES" data-color="#F7DF1E">
+                    <i class="fab fa-js-square" style="color: #F7DF1E;"></i>
+                </div>
+                <div class="skill-icon" data-skill="ASP.NET" data-category="WEB TECHNOLOGIES" data-color="#512BD4">
+                    <i class="fas fa-code" style="color: #512BD4;"></i>
+                </div>
+                <div class="skill-icon" data-skill="HTML5" data-category="WEB TECHNOLOGIES" data-color="#E34F26">
+                    <i class="fab fa-html5" style="color: #E34F26;"></i>
+                </div>
+                <div class="skill-icon" data-skill="CSS3" data-category="WEB TECHNOLOGIES" data-color="#1572B6">
+                    <i class="fab fa-css3-alt" style="color: #1572B6;"></i>
+                </div>
+                <!-- Right side - 6 skills -->
+                <div class="skill-icon" data-skill="SQL Server" data-category="DATABASES" data-color="#CC2927">
+                    <i class="fas fa-database" style="color: #CC2927;"></i>
+                </div>
+                <div class="skill-icon" data-skill="PostgreSQL" data-category="DATABASES" data-color="#4F9ED7">
+                    <i class="fas fa-database" style="color: #4F9ED7;"></i>
+                </div>
+                <div class="skill-icon" data-skill="Redis" data-category="DISTRIBUTED SYSTEMS" data-color="#DC382D">
+                    <i class="fas fa-memory" style="color: #DC382D;"></i>
+                </div>
+                <div class="skill-icon" data-skill="Docker" data-category="DISTRIBUTED SYSTEMS" data-color="#2496ED">
+                    <i class="fab fa-docker" style="color: #2496ED;"></i>
+                </div>
+                <div class="skill-icon" data-skill="GitHub" data-category="TOOLS" data-color="#FFFFFF">
+                    <i class="fab fa-github" style="color: #FFFFFF;"></i>
+                </div>
+                <div class="skill-icon" data-skill="k6" data-category="TOOLS" data-color="#7D64FF">
+                    <i class="fas fa-tachometer-alt" style="color: #7D64FF;"></i>
+                </div>
+            </div>
+
+            <!-- Contact Links -->
+            <div class="skills-contact">
+                <p class="skills-contact-title">CONTACT</p>
+                <div class="skills-contact-links">
+                    <a href="https://www.linkedin.com/in/ahanaf-mokammel-omi-b15764268/" class="skills-contact-link" target="_blank" rel="noopener noreferrer" data-label="LinkedIn">
+                        <i class="fab fa-linkedin" style="color: #0077B5;"></i>
+                    </a>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ahanafmo@gmail.com" class="skills-contact-link" target="_blank" rel="noopener noreferrer" data-label="Email">
+                        <i class="fas fa-envelope" style="color: #EA4335;"></i>
+                    </a>
+                    <a href="Ahanaf_Mokammel_Omi_Curriculum_Vitae.pdf" class="skills-contact-link" download data-label="CV">
+                        <span>CV</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="scene-content">
+                <!-- Skills Section -->
+                <div class="skills-section active" id="skills-section">
+                    <div class="curved-text-container">
+                        <div class="curved-text-left">
+                            <h2 class="section-title">SKILLS</h2>
+                        </div>
+                        <div class="curved-text-right">
+                            <div class="skills-container">
+                                <!-- Central Display -->
+                                <div class="skills-display" id="skills-display">
+                                    <h3 class="skills-display-title" id="skill-name">C#</h3>
+                                    <p class="skills-display-category" id="skill-category">PROGRAMMING LANGUAGES</p>
+                                    <div class="skill-rating-bar">
+                                        <div class="skill-rating-fill" id="skill-rating-fill" style="width: 70%"></div>
+                                    </div>
+                                    <p class="skill-rating-text" id="skill-rating-text">3.5 / 5</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                </div>
+                    </div>
+                </div>
+
+                <!-- Contact Section -->
+                <div class="contact-section" id="contact-section">
+                    <div class="curved-text-container">
+                        <div class="curved-text-left">
+                            <h2 class="contact-title">LET'S CONNECT</h2>
+                        </div>
+                        <div class="curved-text-right">
+                            <div class="contact-links">
+                                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ahanafmo@gmail.com" class="contact-link" target="_blank" rel="noopener noreferrer">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>ahanafmo@gmail.com</span>
+                                </a>
+                                <a href="https://github.com/BigSmoke4" class="contact-link" target="_blank" rel="noopener noreferrer">
+                                    <i class="fab fa-github"></i>
+                                    <span>GitHub</span>
+                                </a>
+                                <a href="https://linkedin.com/in/ahanaf-mokammel-omi" class="contact-link" target="_blank" rel="noopener noreferrer">
+                                    <i class="fab fa-linkedin"></i>
+                                    <span>LinkedIn</span>
+                                </a>
+                                <a href="Ahanaf_Mokammel_Omi_Curriculum_Vitae.pdf" class="contact-link" download>
+                                    <span>CV</span>
+                                </a>
+                                <div class="contact-link">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Dhaka-1205, Bangladesh</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="final-inscription">
+                        <p class="final-name">AHANAF MOKAMMEL OMI</p>
+                        <p class="final-title">FULL-STACK DEVELOPER</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script>
+        // Register ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Project Data
+        const projects = [
+            {
+                number: "01",
+                title: "NEXUS",
+                subtitle: "Supply Chain Intelligence Command Center",
+                technologies: "ASP.NET Core MVC, C#, PostgreSQL, Redis, EF Core, Docker",
+                description: "• Engineered an enterprise supply-chain decision-support platform modeling dependencies as graphs; implemented BFS/DFS traversal, alternate-path discovery, single-point-of-failure detection, bottleneck analysis, and downstream impact propagation.\n• Built deterministic day-by-day disruption simulation with inventory depletion, stockout-day, service-level, recovery-time, revenue-at-risk, multi-scenario what-if analysis, AI specialist orchestration, RBAC, audit logging, SignalR, and Testcontainers.",
+                link: "https://github.com/BigSmoke4/NEXUS-Supply-Chain-Intelligence-Command-Center",
+                linkType: "github"
+            },
+            {
+                number: "02",
+                title: "VERITAS",
+                subtitle: "Enterprise Identity & Access Governance Platform",
+                technologies: "ASP.NET Core, C#, PostgreSQL, Redis, EF Core, Identity",
+                description: "• Built an enterprise IAM and zero-trust authorization platform supporting RBAC, ABAC, deny-by-default policy evaluation, ALLOW/DENY/APPROVAL outcomes, immutable policy versions, risk scoring, and privileged access controls.\n• Implemented risk-aware MFA workflows using IP, login failure, privileged action, after-hours, and device-trust signals; added JIT access, access reviews, API-key hashing/rotation, and HMAC-SHA256 webhooks.",
+                link: "https://github.com/BigSmoke4/VERITAS",
+                linkType: "github"
+            },
+            {
+                number: "03",
+                title: "NEURA",
+                subtitle: "Neural AI Agent Orchestration & Continuity Platform",
+                technologies: "ASP.NET Core, C#, PostgreSQL, Redis, SignalR, OpenAI, Anthropic, Google AI",
+                description: "• Developed a multi-agent orchestration platform maintaining task continuity across AI providers through context monitoring, ContextHandoffPackage generation, validation, automatic handoff, weighted agent routing, and provider abstraction.\n• Implemented memory, knowledge graphs, real AI adapters, retry/backoff, circuit breakers, rate limiting, encrypted credentials, cost tracking, and real-time SignalR/Cytoscape mission visualization.",
+                link: "https://github.com/BigSmoke4/NEURA-Neural-AI-Agent-Orchestration-Continuity-Platform",
+                linkType: "github"
+            },
+            {
+                number: "04",
+                title: "FORGE",
+                subtitle: "AI Software Engineering Intelligence Platform",
+                technologies: "ASP.NET Core, C#, Roslyn, PostgreSQL, EF Core, Git",
+                description: "• Engineered a software-engineering intelligence pipeline combining Roslyn semantic analysis, repository indexing, C# symbol extraction, dependency graphs, Git-history mining, and deterministic security/technical-debt analysis.\n• Implemented deterministic software-risk scoring, security pattern scanning, namespace architecture policies, context retrieval, multi-tenant authZ, audit logging, rate limiting, and modular-boundary enforcement.",
+                link: "https://github.com/BigSmoke4/FORGE-AI-Software-Engineering-Intelligence-Platform",
+                linkType: "github"
+            },
+            {
+                number: "05",
+                title: "PULSE",
+                subtitle: "Distributed Job Processing & Workflow Platform",
+                technologies: "ASP.NET Core MVC, C#, RabbitMQ, Redis, SQL Server, EF Core",
+                description: "• Engineered a distributed job-processing modular monolith using RabbitMQ durable priority queues, manual acknowledgements, dead-letter queues, Redis distributed locks, idempotency protection, and worker heartbeats.\n• Implemented job lifecycle management, failure/retry transitions, exponential backoff, cancellation, scheduled jobs, worker orchestration, queue monitoring, and failure simulation.",
+                link: "https://github.com/BigSmoke4/Pulse-Job-Orchestrator",
+                linkType: "github"
+            },
+            {
+                number: "06",
+                title: "BDPRICEFINDER",
+                subtitle: "Multi-Vendor E-Commerce Platform",
+                technologies: "ASP.NET MVC, Razor Views, C#, HTML, CSS, JavaScript, SQL Server",
+                description: "• Developed a full-stack Bangladesh multi-vendor price-comparison marketplace supporting buyers, sellers, and vendors through role-specific dashboards, product/vendor workflows, approval processes, and hierarchical permissions.\n• Implemented product lifecycle management, dynamic variants, inventory/order management, 2-step email OTP auth, coupons, EMI, warranty, Elasticsearch search, Redis caching, and vendor-aware marketplace functionality.",
+                link: "https://bdpricefinder.com/",
+                linkType: "website"
+            },
+            {
+                number: "07",
+                title: "LOCAL AGENT",
+                subtitle: "Local-First Autonomous Coding Platform",
+                technologies: "ASP.NET Core, C#, PostgreSQL, EF Core, Ollama, Roslyn, SignalR",
+                description: "• Built a local-first autonomous software-engineering agent platform with persistent sessions, model-driven DAG task planning, dependency validation, fan-out/fan-in execution, retry budgets, and verification loops.\n• Implemented SHA-256 incremental repository indexing, Roslyn symbol extraction, cross-file reference graphs, context selection, and layered short/long-term memory with semantic and lexical retrieval.",
+                link: "https://github.com/BigSmoke4/Local-Agent-Platform",
+                linkType: "github"
+            },
+            {
+                number: "08",
+                title: "ATLAS",
+                subtitle: "Enterprise Intelligent API & Event Platform",
+                technologies: "ASP.NET Core, C#, PostgreSQL, Redis, Kafka, OpenTelemetry",
+                description: "• Engineered a modular enterprise platform combining API management, service registry, traffic routing, Kafka event processing, retries, DLQ/replay, Redis Lua rate limiting, circuit breakers, and tenant authorization.\n• Implemented OpenTelemetry-based SLO/error-budget analysis, health probing, incident state management, deployment regression analysis, and audit/security controls.",
+                link: "https://github.com/BigSmoke4/ATLAS-Enterprise-Intelligent-API-Event-Platform",
+                linkType: "github"
+            },
+            {
+                number: "09",
+                title: "AURORA",
+                subtitle: "Organizational Resilience & Decision Intelligence Architecture",
+                technologies: "ASP.NET Core MVC, C#, PostgreSQL, EF Core, SignalR",
+                description: "• Developed an enterprise digital-twin platform modeling organizational assets through graph intelligence; implemented BFS/DFS, Dijkstra, upstream/downstream propagation, SPOF, and bottleneck scoring with disruption simulation.\n• Added weighted risk scoring, AI investigation, human-in-the-loop approvals, audit trails, multi-tenancy, and SignalR visualization while explicitly separating implemented functionality from planned RAG and multi-agent features.",
+                link: "https://github.com/BigSmoke4/AURORA-Autonomous-Unified-Reasoning-Organizational-Resilience-Architecture",
+                linkType: "github"
+            },
+            {
+                number: "10",
+                title: "SENTINEL",
+                subtitle: "Enterprise Operational Risk & Resilience Simulator",
+                technologies: "ASP.NET Core MVC, C#, PostgreSQL, Redis",
+                description: "• Built an operational-risk simulation platform using dependency graphs, BFS/DFS traversal, single-point-of-failure detection, critical-path analysis, weighted failure propagation, and business-impact modeling.\n• Implemented genuine Monte Carlo simulation using normal/log-normal sampling, recovery-strategy weighted scoring, resilience metrics, risk heatmaps, background jobs, and interactive graph visualization.",
+                link: "https://github.com/BigSmoke4/sentinel-risk-simulator",
+                linkType: "github"
+            },
+            {
+                number: "11",
+                title: "AEGIS",
+                subtitle: "Intelligent Incident Response & Digital Operations Platform",
+                technologies: "ASP.NET Core MVC, C#, PostgreSQL, Redis",
+                description: "• Developed an SRE/AIOps platform with a synthetic infrastructure digital twin implementing the Failure → Detection → Correlation → Root Cause → Impact → Remediation pipeline.\n• Implemented rolling z-score anomaly detection, graph-based incident correlation, weighted root-cause ranking, synthetic business-impact analysis, and human-approved remediation runbooks.",
+                link: "https://github.com/BigSmoke4/Aegis-Intelligent-Incident-Response-Digital-Operations-Platform",
+                linkType: "github"
+            },
+            {
+                number: "12",
+                title: "NIRBHOR",
+                subtitle: "Bilingual AI Personal Administrative Agent",
+                technologies: "ASP.NET Core MVC, C#, PostgreSQL, EF Core, Identity, SignalR, Anthropic",
+                description: "• Built a bilingual AI administrative agent supporting English, Bangla, and mixed-language workflows for tasks such as NID correction and passport renewal through conversation, language understanding, and tool execution.\n• Implemented versioned prompt management, multilingual evaluation datasets, accuracy-gated evaluation, audit logging, notifications, cost tracking, OpenTelemetry, and secure Identity workflows.",
+                link: "https://github.com/BigSmoke4/NIRBHOR-Bilingual-AI-Personal-Administrative-Agent",
+                linkType: "github"
+            },
+            {
+                number: "13",
+                title: "E-COMMERCE",
+                subtitle: "ASP.NET MVC/Razor Web Application",
+                technologies: "ASP.NET MVC, C#, Razor Views, Entity Framework, SQL Server",
+                description: "• Developed a responsive database-driven e-commerce application using ASP.NET MVC and Razor with separated Controllers, Models, Services, and Views, supporting product management and shopping-cart functionality.",
+                link: "https://github.com/BigSmoke4/Responsive-Ecommerce-asp.net-MVC-razor-view",
+                linkType: "github"
+            }
+        ];
+
+        // Dynamically generate project items
+        const projectsContainer = document.getElementById('projects-container');
+        projects.forEach((project, index) => {
+            const projectItem = document.createElement('div');
+            projectItem.className = `project-item ${index === 0 ? 'active' : ''}`;
+            projectItem.id = `project-${index + 1}`;
+            
+            const iconClass = project.linkType === 'github' ? 'fab fa-github' : 'fas fa-globe';
+            const linkLabel = project.linkType === 'github' ? 'GITHUB' : 'WEBSITE';
+            
+            // Convert bullet points to HTML
+            const descriptionHtml = project.description.split('\n').map(line => 
+                line.trim() ? `<p>${line.replace('•', '')}</p>` : ''
+            ).join('');
+            
+            projectItem.innerHTML = `
+                <p class="project-number">${project.number}</p>
+                <h3 class="project-title">${project.title}</h3>
+                <p class="project-subtitle">${project.subtitle}</p>
+                <p class="project-technologies">${project.technologies}</p>
+                <div class="project-description">${descriptionHtml}</div>
+                <a href="${project.link}" class="project-link" target="_blank" rel="noopener noreferrer">
+                    <i class="${iconClass}"></i>
+                    <span>${linkLabel}</span>
+                </a>
+            `;
+            
+            projectsContainer.appendChild(projectItem);
+        });
+
+        // Scene Index Navigation
+        const sceneIndexItems = document.querySelectorAll('.scene-index-item');
+        const scenes = document.querySelectorAll('.scene');
+
+        // Update active scene index on scroll
+        scenes.forEach((scene, index) => {
+            ScrollTrigger.create({
+                trigger: scene,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => updateSceneIndex(index + 1),
+                onEnterBack: () => updateSceneIndex(index + 1)
+            });
+        });
+
+        function updateSceneIndex(sceneNumber) {
+            sceneIndexItems.forEach(item => {
+                item.classList.remove('active');
+                if (parseInt(item.dataset.scene) === sceneNumber) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Scene 01 - Hero Animation
+        const heroScene = document.querySelector('#scene-01');
+        const heroAhanaf = document.getElementById('hero-ahanaf');
+        const heroMokammel = document.getElementById('hero-mokammel');
+        const heroOmi = document.getElementById('hero-omi');
+        const heroSubtitle = document.getElementById('hero-subtitle');
+        const heroLocation = document.getElementById('hero-location');
+        const heroVideo = heroScene.querySelector('video');
+
+        // Initial load animation
+        gsap.fromTo(heroVideo, 
+            { opacity: 0 },
+            { opacity: 1, duration: 1.5, ease: "power2.out" }
+        );
+
+        // Ahanaf - from left side
+        gsap.fromTo(heroAhanaf,
+            { opacity: 0, x: -100, filter: "blur(8px)" },
+            { opacity: 1, x: 0, filter: "blur(0px)", duration: 1.2, delay: 0.5, ease: "power2.out" }
+        );
+
+        // Mokammel - from middle (rising up)
+        gsap.fromTo(heroMokammel,
+            { opacity: 0, y: 50, filter: "blur(8px)" },
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, delay: 0.7, ease: "power2.out" }
+        );
+
+        // Omi - from right side
+        gsap.fromTo(heroOmi,
+            { opacity: 0, x: 100, filter: "blur(8px)" },
+            { opacity: 1, x: 0, filter: "blur(0px)", duration: 1.2, delay: 0.9, ease: "power2.out" }
+        );
+
+        // Full Stack Developer - from middle
+        gsap.fromTo(heroSubtitle,
+            { opacity: 0, y: 30, filter: "blur(6px)" },
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 1, delay: 1.2, ease: "power2.out" }
+        );
+
+        // Location - from middle
+        gsap.fromTo(heroLocation,
+            { opacity: 0, y: 20, filter: "blur(4px)" },
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, delay: 1.5, ease: "power2.out" }
+        );
+
+        // Scene 02 - About/Education Animation
+        const scene02 = document.querySelector('#scene-02');
+        const scene02Bg = scene02.querySelector('.scene-background');
+        const scene02Content = scene02.querySelector('.scene-content');
+        const aboutText = scene02.querySelector('.about-text');
+        const educationItems = scene02.querySelectorAll('.education-item');
+
+        gsap.fromTo(scene02Bg,
+            { scale: 1 },
+            { 
+                scale: 1.12, 
+                scrollTrigger: {
+                    trigger: scene02,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1
+                }
+            }
+        );
+
+        // Animate about text when entering scene
+        gsap.fromTo(aboutText,
+            { opacity: 0, y: 30, filter: "blur(6px)" },
+            {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: scene02,
+                    start: "top 60%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        educationItems.forEach((item, index) => {
+            gsap.fromTo(item,
+                { opacity: 0, y: 35, filter: "blur(6px)" },
+                {
+                    opacity: 1,
+                    y: 0,
+                    filter: "blur(0px)",
+                    duration: 0.8,
+                    delay: index * 0.2,
+                    scrollTrigger: {
+                        trigger: scene02,
+                        start: "top 60%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // Scene 03 - Projects Animation
+        const scene03 = document.querySelector('#scene-03');
+        const scene03Bg = scene03.querySelector('.scene-background');
+        const projectItems = document.querySelectorAll('.project-item');
+        const projectCounter = document.getElementById('project-counter');
+        const projectImages = document.querySelectorAll('.project-image');
+        let currentProjectIndex = 0;
+
+        gsap.fromTo(scene03Bg,
+            { scale: 1 },
+            { 
+                scale: 1.12, 
+                scrollTrigger: {
+                    trigger: scene03,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1
+                }
+            }
+        );
+
+        // Project Navigation Functions
+        function showProject(index) {
+            currentProjectIndex = index;
+            
+            // Update project items
+            projectItems.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                    gsap.fromTo(item,
+                        { opacity: 0, scale: 1.03 },
+                        { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }
+                    );
+                } else {
+                    item.classList.remove('active');
+                    gsap.to(item, { opacity: 0, scale: 0.97, duration: 0.3 });
+                }
+            });
+            
+            // Update project images (only highlight if index corresponds to an image)
+            projectImages.forEach((img) => {
+                const imgProjectIndex = parseInt(img.dataset.project);
+                if (imgProjectIndex === index) {
+                    img.classList.add('active');
+                    img.style.animation = 'none';
+                } else {
+                    img.classList.remove('active');
+                    img.style.animation = '';
+                }
+            });
+            
+            // Update counter
+            projectCounter.textContent = `${String(index + 1).padStart(2, '0')} / 13`;
+        }
+
+        function nextProject() {
+            const nextIndex = (currentProjectIndex + 1) % projectItems.length;
+            showProject(nextIndex);
+        }
+
+        function prevProject() {
+            const prevIndex = (currentProjectIndex - 1 + projectItems.length) % projectItems.length;
+            showProject(prevIndex);
+        }
+
+        // Navigation Button Event Listeners
+        document.getElementById('next-project').addEventListener('click', nextProject);
+        document.getElementById('prev-project').addEventListener('click', prevProject);
+
+        // Project Image Click Event Listeners
+        projectImages.forEach((img) => {
+            img.addEventListener('click', () => {
+                const projectIndex = parseInt(img.dataset.project);
+                showProject(projectIndex);
+            });
+        });
+
+        // Initialize first project
+        showProject(0);
+
+        // Skills Section Functionality
+        const skillIcons = document.querySelectorAll('.skill-icon');
+        const skillNameDisplay = document.getElementById('skill-name');
+        const skillCategoryDisplay = document.getElementById('skill-category');
+        const skillRatingFill = document.getElementById('skill-rating-fill');
+        const skillRatingText = document.getElementById('skill-rating-text');
+
+        // Generate random ratings between 3-4 for all skills
+        skillIcons.forEach((icon) => {
+            const randomRating = (Math.random() * (4 - 3) + 3).toFixed(1);
+            icon.dataset.rating = randomRating;
+        });
+
+        skillIcons.forEach((icon) => {
+            icon.addEventListener('click', () => {
+                const skill = icon.dataset.skill;
+                const category = icon.dataset.category;
+                const rating = parseFloat(icon.dataset.rating);
+                const color = icon.dataset.color;
+
+                // Update display
+                skillNameDisplay.textContent = skill;
+                skillCategoryDisplay.textContent = category;
+                skillRatingFill.style.width = `${(rating / 5) * 100}%`;
+                skillRatingText.textContent = `${rating} / 5`;
+
+                // Update active state
+                skillIcons.forEach(i => {
+                    i.classList.remove('active');
+                    const iconElement = i.querySelector('i');
+                    if (iconElement && i.dataset.color) {
+                        iconElement.style.color = i.dataset.color;
+                    }
+                });
+                icon.classList.add('active');
+            });
+        });
+
+        // Initialize first skill as active
+        if (skillIcons.length > 0) {
+            const firstIcon = skillIcons[0];
+            skillNameDisplay.textContent = firstIcon.dataset.skill;
+            skillCategoryDisplay.textContent = firstIcon.dataset.category;
+            const rating = parseFloat(firstIcon.dataset.rating);
+            skillRatingFill.style.width = `${(rating / 5) * 100}%`;
+            skillRatingText.textContent = `${rating} / 5`;
+            firstIcon.classList.add('active');
+            
+            // Set initial colors for all icons
+            skillIcons.forEach(icon => {
+                const iconElement = icon.querySelector('i');
+                if (iconElement && icon.dataset.color) {
+                    iconElement.style.color = icon.dataset.color;
+                }
+            });
+        }
+
+        // Scene 04 - Experience Animation
+        const scene04 = document.querySelector('#scene-04');
+        const scene04Bg = scene04.querySelector('.scene-background');
+        const experienceItems = scene04.querySelectorAll('.experience-item');
+
+        gsap.fromTo(scene04Bg,
+            { scale: 1 },
+            { 
+                scale: 1.12, 
+                scrollTrigger: {
+                    trigger: scene04,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1
+                }
+            }
+        );
+
+        experienceItems.forEach((item, index) => {
+            gsap.fromTo(item,
+                { opacity: 0, y: 40, filter: "blur(6px)" },
+                {
+                    opacity: 1,
+                    y: 0,
+                    filter: "blur(0px)",
+                    duration: 0.8,
+                    delay: index * 0.2,
+                    scrollTrigger: {
+                        trigger: scene04,
+                        start: "top 60%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // Scene 05 - Skills/Contact Animation
+        const scene05 = document.querySelector('#scene-05');
+        const scene05Bg = scene05.querySelector('.scene-background');
+        const skillsSection = document.getElementById('skills-section');
+        const contactSection = document.getElementById('contact-section');
+
+        gsap.fromTo(scene05Bg,
+            { scale: 1 },
+            { 
+                scale: 1.12, 
+                scrollTrigger: {
+                    trigger: scene05,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1
+                }
+            }
+        );
+
+        // Transition from Skills to Contact
+        ScrollTrigger.create({
+            trigger: scene05,
+            start: "bottom bottom-=200",
+            end: "bottom top",
+            scrub: 1,
+            onEnter: () => {
+                skillsSection.classList.remove('active');
+                contactSection.classList.add('active');
+                // Hide skill icons and contact links when showing contact
+                const skillsIconsContainer = document.getElementById('skills-icons-container');
+                const skillsContact = document.querySelector('.skills-contact');
+                if (skillsIconsContainer) skillsIconsContainer.style.display = 'none';
+                if (skillsContact) skillsContact.style.display = 'none';
+            },
+            onEnterBack: () => {
+                contactSection.classList.remove('active');
+                skillsSection.classList.add('active');
+                // Show skill icons and contact links when showing skills
+                const skillsIconsContainer = document.getElementById('skills-icons-container');
+                const skillsContact = document.querySelector('.skills-contact');
+                if (skillsIconsContainer) skillsIconsContainer.style.display = 'block';
+                if (skillsContact) skillsContact.style.display = 'block';
+            }
+        });
+
+        // Animate skill items
+        const skillItems = document.querySelectorAll('.skill-item');
+        skillItems.forEach((item, index) => {
+            gsap.fromTo(item,
+                { opacity: 0, x: -20 },
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.4,
+                    delay: (index % 6) * 0.1,
+                    scrollTrigger: {
+                        trigger: skillsSection,
+                        start: "top 60%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // Smooth scroll for scene index
+        sceneIndexItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetScene = document.querySelector(item.getAttribute('href'));
+                targetScene.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        
+        if (prefersReducedMotion.matches) {
+            // Disable complex animations
+            gsap.globalTimeline.clear();
+            ScrollTrigger.getAll().forEach(trigger => trigger.disable());
+        }
+
+        // Handle video loading fallback
+        const video = document.querySelector('video');
+        video.addEventListener('error', () => {
+            // If video fails to load, show poster image
+            video.style.display = 'none';
+            const poster = document.createElement('img');
+            poster.src = '2.png';
+            poster.className = 'scene-background';
+            poster.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;';
+            video.parentNode.insertBefore(poster, video);
+        });
+
+        // Handle background music - only start when speaker button is pressed
+        const backgroundMusic = document.getElementById('background-music');
+        const musicControl = document.getElementById('music-control');
+        const musicIcon = document.getElementById('music-icon');
+        let musicStarted = false;
+        
+        // Music control button functionality - ONLY starts when button is pressed
+        musicControl.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent triggering the document click event
+            e.preventDefault(); // Prevent any default behavior
+            
+            // Start music if it hasn't started yet
+            if (!musicStarted) {
+                musicStarted = true;
+                backgroundMusic.muted = false; // Start with sound immediately
+                backgroundMusic.play().then(() => {
+                    console.log('Music started with sound via button');
+                    musicIcon.className = 'fas fa-volume-up';
+                    musicControl.classList.remove('muted');
+                }).catch(error => {
+                    console.log('Unable to play music:', error);
+                });
+            } else {
+                // Toggle mute/unmute if music is already playing
+                if (backgroundMusic.muted) {
+                    backgroundMusic.muted = false;
+                    musicIcon.className = 'fas fa-volume-up';
+                    musicControl.classList.remove('muted');
+                } else {
+                    backgroundMusic.muted = true;
+                    musicIcon.className = 'fas fa-volume-mute';
+                    musicControl.classList.add('muted');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
