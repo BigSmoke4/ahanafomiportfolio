@@ -574,6 +574,11 @@
             z-index: 5;
         }
 
+        .project-images-container .project-image,
+        .project-images-container div {
+            pointer-events: auto;
+        }
+
         .project-image {
             position: absolute;
             width: 100px;
@@ -591,6 +596,7 @@
             touch-action: manipulation;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-touch-callout: none;
         }
 
         .project-image {
@@ -645,20 +651,21 @@
                 min-height: 60px;
                 padding: 5px;
                 box-sizing: border-box;
+                z-index: 15;
             }
 
-            .project-image:nth-child(1) { top: 12%; left: 4%; }
-            .project-image:nth-child(2) { top: 27%; left: 2%; }
-            .project-image:nth-child(3) { top: 42%; left: 1%; }
-            .project-image:nth-child(4) { top: 57%; left: 2%; }
-            .project-image:nth-child(5) { top: 72%; left: 4%; }
-            .project-image:nth-child(6) { top: 85%; left: 6%; }
-            .project-image:nth-child(7) { top: 12%; right: 4%; left: auto; }
-            .project-image:nth-child(8) { top: 27%; right: 2%; left: auto; }
-            .project-image:nth-child(9) { top: 42%; right: 1%; left: auto; }
-            .project-image:nth-child(10) { top: 57%; right: 2%; left: auto; }
-            .project-image:nth-child(11) { top: 72%; right: 4%; left: auto; }
-            .project-image:nth-child(12) { top: 85%; right: 6%; left: auto; }
+            .project-image:nth-child(1) { top: 12%; left: 4%; z-index: 16; }
+            .project-image:nth-child(2) { top: 27%; left: 2%; z-index: 17; }
+            .project-image:nth-child(3) { top: 42%; left: 1%; z-index: 18; }
+            .project-image:nth-child(4) { top: 57%; left: 2%; z-index: 19; }
+            .project-image:nth-child(5) { top: 72%; left: 4%; z-index: 20; }
+            .project-image:nth-child(6) { top: 85%; left: 6%; z-index: 21; }
+            .project-image:nth-child(7) { top: 12%; right: 4%; left: auto; z-index: 22; }
+            .project-image:nth-child(8) { top: 27%; right: 2%; left: auto; z-index: 23; }
+            .project-image:nth-child(9) { top: 42%; right: 1%; left: auto; z-index: 24; }
+            .project-image:nth-child(10) { top: 57%; right: 2%; left: auto; z-index: 25; }
+            .project-image:nth-child(11) { top: 72%; right: 4%; left: auto; z-index: 26; }
+            .project-image:nth-child(12) { top: 85%; right: 6%; left: auto; z-index: 27; }
 
             .project-nav {
                 gap: 1rem;
@@ -952,6 +959,10 @@
             z-index: 5;
         }
 
+        .skills-icons-container .skill-icon {
+            pointer-events: auto;
+        }
+
         .skill-icon {
             position: absolute;
             width: 70px;
@@ -971,6 +982,7 @@
             touch-action: manipulation;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-touch-callout: none;
         }
 
         .skill-icon i,
@@ -1037,6 +1049,7 @@
                 min-height: 50px;
                 padding: 5px;
                 box-sizing: border-box;
+                z-index: 15;
             }
 
             .skill-icon i,
@@ -1048,18 +1061,18 @@
                 font-size: 0.8rem;
             }
 
-            .skill-icon:nth-child(1) { top: 12%; left: 4%; }
-            .skill-icon:nth-child(2) { top: 27%; left: 2%; }
-            .skill-icon:nth-child(3) { top: 42%; left: 1%; }
-            .skill-icon:nth-child(4) { top: 57%; left: 2%; }
-            .skill-icon:nth-child(5) { top: 72%; left: 4%; }
-            .skill-icon:nth-child(6) { top: 85%; left: 6%; }
-            .skill-icon:nth-child(7) { top: 12%; right: 4%; left: auto; }
-            .skill-icon:nth-child(8) { top: 27%; right: 2%; left: auto; }
-            .skill-icon:nth-child(9) { top: 42%; right: 1%; left: auto; }
-            .skill-icon:nth-child(10) { top: 57%; right: 2%; left: auto; }
-            .skill-icon:nth-child(11) { top: 72%; right: 4%; left: auto; }
-            .skill-icon:nth-child(12) { top: 85%; right: 6%; left: auto; }
+            .skill-icon:nth-child(1) { top: 12%; left: 4%; z-index: 16; }
+            .skill-icon:nth-child(2) { top: 27%; left: 2%; z-index: 17; }
+            .skill-icon:nth-child(3) { top: 42%; left: 1%; z-index: 18; }
+            .skill-icon:nth-child(4) { top: 57%; left: 2%; z-index: 19; }
+            .skill-icon:nth-child(5) { top: 72%; left: 4%; z-index: 20; }
+            .skill-icon:nth-child(6) { top: 85%; left: 6%; z-index: 21; }
+            .skill-icon:nth-child(7) { top: 12%; right: 4%; left: auto; z-index: 22; }
+            .skill-icon:nth-child(8) { top: 27%; right: 2%; left: auto; z-index: 23; }
+            .skill-icon:nth-child(9) { top: 42%; right: 1%; left: auto; z-index: 24; }
+            .skill-icon:nth-child(10) { top: 57%; right: 2%; left: auto; z-index: 25; }
+            .skill-icon:nth-child(11) { top: 72%; right: 4%; left: auto; z-index: 26; }
+            .skill-icon:nth-child(12) { top: 85%; right: 6%; left: auto; z-index: 27; }
 
             .skills-container {
                 height: 50vh;
@@ -1751,20 +1764,21 @@
                 min-height: 50px;
                 padding: 4px;
                 box-sizing: border-box;
+                z-index: 20;
             }
 
-            .project-image:nth-child(1) { top: 10%; left: 3%; }
-            .project-image:nth-child(2) { top: 25%; left: 1%; }
-            .project-image:nth-child(3) { top: 40%; left: 0%; }
-            .project-image:nth-child(4) { top: 55%; left: 1%; }
-            .project-image:nth-child(5) { top: 70%; left: 3%; }
-            .project-image:nth-child(6) { top: 83%; left: 5%; }
-            .project-image:nth-child(7) { top: 10%; right: 3%; left: auto; }
-            .project-image:nth-child(8) { top: 25%; right: 1%; left: auto; }
-            .project-image:nth-child(9) { top: 40%; right: 0%; left: auto; }
-            .project-image:nth-child(10) { top: 55%; right: 1%; left: auto; }
-            .project-image:nth-child(11) { top: 70%; right: 3%; left: auto; }
-            .project-image:nth-child(12) { top: 83%; right: 5%; left: auto; }
+            .project-image:nth-child(1) { top: 10%; left: 3%; z-index: 21; }
+            .project-image:nth-child(2) { top: 25%; left: 1%; z-index: 22; }
+            .project-image:nth-child(3) { top: 40%; left: 0%; z-index: 23; }
+            .project-image:nth-child(4) { top: 55%; left: 1%; z-index: 24; }
+            .project-image:nth-child(5) { top: 70%; left: 3%; z-index: 25; }
+            .project-image:nth-child(6) { top: 83%; left: 5%; z-index: 26; }
+            .project-image:nth-child(7) { top: 10%; right: 3%; left: auto; z-index: 27; }
+            .project-image:nth-child(8) { top: 25%; right: 1%; left: auto; z-index: 28; }
+            .project-image:nth-child(9) { top: 40%; right: 0%; left: auto; z-index: 29; }
+            .project-image:nth-child(10) { top: 55%; right: 1%; left: auto; z-index: 30; }
+            .project-image:nth-child(11) { top: 70%; right: 3%; left: auto; z-index: 31; }
+            .project-image:nth-child(12) { top: 83%; right: 5%; left: auto; z-index: 32; }
 
             /* Skill icons for small mobile */
             .skill-icon {
@@ -1775,6 +1789,7 @@
                 min-height: 45px;
                 padding: 4px;
                 box-sizing: border-box;
+                z-index: 20;
             }
 
             .skill-icon i,
@@ -1786,18 +1801,18 @@
                 font-size: 0.7rem;
             }
 
-            .skill-icon:nth-child(1) { top: 10%; left: 3%; }
-            .skill-icon:nth-child(2) { top: 25%; left: 1%; }
-            .skill-icon:nth-child(3) { top: 40%; left: 0%; }
-            .skill-icon:nth-child(4) { top: 55%; left: 1%; }
-            .skill-icon:nth-child(5) { top: 70%; left: 3%; }
-            .skill-icon:nth-child(6) { top: 83%; left: 5%; }
-            .skill-icon:nth-child(7) { top: 10%; right: 3%; left: auto; }
-            .skill-icon:nth-child(8) { top: 25%; right: 1%; left: auto; }
-            .skill-icon:nth-child(9) { top: 40%; right: 0%; left: auto; }
-            .skill-icon:nth-child(10) { top: 55%; right: 1%; left: auto; }
-            .skill-icon:nth-child(11) { top: 70%; right: 3%; left: auto; }
-            .skill-icon:nth-child(12) { top: 83%; right: 5%; left: auto; }
+            .skill-icon:nth-child(1) { top: 10%; left: 3%; z-index: 21; }
+            .skill-icon:nth-child(2) { top: 25%; left: 1%; z-index: 22; }
+            .skill-icon:nth-child(3) { top: 40%; left: 0%; z-index: 23; }
+            .skill-icon:nth-child(4) { top: 55%; left: 1%; z-index: 24; }
+            .skill-icon:nth-child(5) { top: 70%; left: 3%; z-index: 25; }
+            .skill-icon:nth-child(6) { top: 83%; left: 5%; z-index: 26; }
+            .skill-icon:nth-child(7) { top: 10%; right: 3%; left: auto; z-index: 27; }
+            .skill-icon:nth-child(8) { top: 25%; right: 1%; left: auto; z-index: 28; }
+            .skill-icon:nth-child(9) { top: 40%; right: 0%; left: auto; z-index: 29; }
+            .skill-icon:nth-child(10) { top: 55%; right: 1%; left: auto; z-index: 30; }
+            .skill-icon:nth-child(11) { top: 70%; right: 3%; left: auto; z-index: 31; }
+            .skill-icon:nth-child(12) { top: 83%; right: 5%; left: auto; z-index: 32; }
 
             /* Experience section specific fixes for small mobile */
             .experience-timeline {
@@ -2089,20 +2104,22 @@
             
             <!-- Floating Project Images -->
             <div class="project-images-container" id="project-images-container">
-                <!-- Left side: projects 2-7 -->
-                <img class="project-image" src="p2.jpg" alt="Project 2" data-project="1">
-                <img class="project-image" src="p3.jpg" alt="Project 3" data-project="2">
-                <img class="project-image" src="p4.jpg" alt="Project 4" data-project="3">
-                <img class="project-image" src="p5.jpg" alt="Project 5" data-project="4">
-                <img class="project-image" src="p6.jpg" alt="Project 6" data-project="5">
-                <img class="project-image" src="p7.jpg" alt="Project 7" data-project="6">
-                <!-- Right side: projects 8-13 -->
-                <img class="project-image" src="p8.jpg" alt="Project 8" data-project="7">
-                <img class="project-image" src="p9.jpg" alt="Project 9" data-project="8">
-                <img class="project-image" src="p10.jpg" alt="Project 10" data-project="9">
-                <img class="project-image" src="p11.jpg" alt="Project 11" data-project="10">
-                <img class="project-image" src="p12.jpg" alt="Project 12" data-project="11">
-                <img class="project-image" src="p13.jpg" alt="Project 13" data-project="12">
+                <!-- Left side: projects 1-6 (using images p2-p7) -->
+                <img class="project-image" src="p2.jpg" alt="Project 1" data-project="0">
+                <img class="project-image" src="p3.jpg" alt="Project 2" data-project="1">
+                <img class="project-image" src="p4.jpg" alt="Project 3" data-project="2">
+                <img class="project-image" src="p5.jpg" alt="Project 4" data-project="3">
+                <img class="project-image" src="p6.jpg" alt="Project 5" data-project="4">
+                <img class="project-image" src="p7.jpg" alt="Project 6" data-project="5">
+                <!-- Right side: projects 7-12 (using images p8-p13) -->
+                <img class="project-image" src="p8.jpg" alt="Project 7" data-project="6">
+                <img class="project-image" src="p9.jpg" alt="Project 8" data-project="7">
+                <img class="project-image" src="p10.jpg" alt="Project 9" data-project="8">
+                <img class="project-image" src="p11.jpg" alt="Project 10" data-project="9">
+                <img class="project-image" src="p12.jpg" alt="Project 11" data-project="10">
+                <img class="project-image" src="p13.jpg" alt="Project 12" data-project="11">
+                <!-- Project 13 (no image, use placeholder) -->
+                <div class="project-image" style="background: rgba(212, 175, 55, 0.3); border-color: rgba(212, 175, 55, 0.7); display: flex; align-items: center; justify-content: center; color: rgba(212, 175, 55, 0.9); font-size: 1.5rem; font-weight: bold;" data-project="12">13</div>
             </div>
             
             <div class="scene-content">
@@ -2598,6 +2615,11 @@
         const projectImages = document.querySelectorAll('.project-image');
         let currentProjectIndex = 0;
 
+        console.log('Project images found:', projectImages.length);
+        projectImages.forEach((element, idx) => {
+            console.log(`Project image ${idx}:`, element.dataset.project);
+        });
+
         gsap.fromTo(scene03Bg,
             { scale: 1 },
             { 
@@ -2613,7 +2635,13 @@
 
         // Project Navigation Functions
         function showProject(index) {
+            // Ensure index is within bounds
+            if (index < 0) index = 0;
+            if (index >= projectItems.length) index = projectItems.length - 1;
+            
             currentProjectIndex = index;
+            
+            console.log('Showing project:', index);
             
             // Update project items
             projectItems.forEach((item, i) => {
@@ -2674,25 +2702,37 @@
         });
 
         // Project Image Click and Touch Event Listeners
-        projectImages.forEach((img) => {
+        projectImages.forEach((element, index) => {
+            // Ensure data-project attribute is set correctly
+            if (!element.dataset.project) {
+                element.dataset.project = index.toString();
+            }
+            
             // Click event for desktop
-            img.addEventListener('click', (e) => {
+            element.addEventListener('click', (e) => {
                 e.preventDefault();
-                const projectIndex = parseInt(img.dataset.project);
+                e.stopPropagation();
+                const projectIndex = parseInt(element.dataset.project);
+                console.log('Project clicked:', projectIndex);
                 showProject(projectIndex);
             });
             
             // Touch event for mobile - use 'touchend' instead of 'touchstart' for better reliability
-            img.addEventListener('touchend', (e) => {
+            element.addEventListener('touchend', (e) => {
                 e.preventDefault();
-                const projectIndex = parseInt(img.dataset.project);
+                e.stopPropagation();
+                const projectIndex = parseInt(element.dataset.project);
+                console.log('Project touched:', projectIndex);
                 showProject(projectIndex);
             });
             
             // Prevent default touch behavior to avoid scrolling/zooming
-            img.addEventListener('touchstart', (e) => {
+            element.addEventListener('touchstart', (e) => {
                 e.preventDefault();
             }, { passive: false });
+            
+            // Add pointer events for better mobile support
+            element.style.pointerEvents = 'auto';
         });
 
         // Initialize first project
@@ -2715,12 +2755,16 @@
             // Click event for desktop
             icon.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
+                console.log('Skill clicked:', icon.dataset.skill);
                 handleSkillClick(icon);
             });
             
             // Touch event for mobile - use 'touchend' instead of 'touchstart' for better reliability
             icon.addEventListener('touchend', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
+                console.log('Skill touched:', icon.dataset.skill);
                 handleSkillClick(icon);
             });
             
@@ -2728,6 +2772,9 @@
             icon.addEventListener('touchstart', (e) => {
                 e.preventDefault();
             }, { passive: false });
+            
+            // Add pointer events for better mobile support
+            icon.style.pointerEvents = 'auto';
         });
 
         function handleSkillClick(icon) {
